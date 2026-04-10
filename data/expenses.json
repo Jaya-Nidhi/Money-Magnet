@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "amount": 5000.0,
+    "category": "Food",
+    "mood": "anxious",
+    "reason": "",
+    "date": "2026-04-10",
+    "time": "22:14",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 2,
+    "amount": 60000.0,
+    "category": "Shopping",
+    "mood": "stressed",
+    "reason": "",
+    "date": "2026-04-11",
+    "time": "22:14",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 3,
+    "amount": 70000.0,
+    "category": "Shopping",
+    "mood": "bored",
+    "reason": "",
+    "date": "2026-04-12",
+    "time": "22:15",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 4,
+    "amount": 50.0,
+    "category": "Transport",
+    "mood": "neutral",
+    "reason": "",
+    "date": "2026-04-12",
+    "time": "22:15",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 5,
+    "amount": 10000.0,
+    "category": "Entertainment",
+    "mood": "happy",
+    "reason": "",
+    "date": "2026-04-13",
+    "time": "22:15",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 6,
+    "amount": 500.0,
+    "category": "Food",
+    "mood": "happy",
+    "reason": "",
+    "date": "2026-04-14",
+    "time": "22:16",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 7,
+    "amount": 15000.0,
+    "category": "Food",
+    "mood": "stressed",
+    "reason": "",
+    "date": "2026-04-15",
+    "time": "22:16",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  },
+  {
+    "id": 8,
+    "amount": 100.0,
+    "category": "Health",
+    "mood": "excited",
+    "reason": "",
+    "date": "2026-04-16",
+    "time": "22:16",
+    "day_of_week": "Friday",
+    "is_weekend": false
+  }
+]

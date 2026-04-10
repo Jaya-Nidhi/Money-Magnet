@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Money Magnet AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Sidebar ─────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Money<br><strong>Magnet</strong></span>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" onclick="switchTab('dashboard')" id="nav-dashboard">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-btn" onclick="switchTab('add')" id="nav-add">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Add Expense
+        </button>
+        <button class="nav-btn" onclick="switchTab('insights')" id="nav-insights">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          AI Insights
+        </button>
+        <button class="nav-btn" onclick="switchTab('history')" id="nav-history">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          History
+        </button>
+        <button class="nav-btn" onclick="switchTab('predict')" id="nav-predict">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Predict
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="version-badge">v1.0 · ML Powered</div>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ────────────────────────────────── -->
+    <main class="main">
+
+      <!-- DASHBOARD TAB -->
+      <section class="tab active" id="tab-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-sub" id="dashboard-date">Loading...</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-ghost" onclick="loadAll()">↻ Refresh</button>
+          </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card primary">
+            <div class="stat-label">Total Spent</div>
+            <div class="stat-value" id="stat-total">₹0</div>
+            <div class="stat-sub" id="stat-count">0 expenses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg per Expense</div>
+            <div class="stat-value" id="stat-avg">₹0</div>
+            <div class="stat-sub">per transaction</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Top Category</div>
+            <div class="stat-value small" id="stat-category">—</div>
+            <div class="stat-sub">most spent on</div>
+          </div>
+          <div class="stat-card mood-card">
+            <div class="stat-label">Danger Mood</div>
+            <div class="stat-value small" id="stat-mood">—</div>
+            <div class="stat-sub">highest avg spend</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+          <div class="card chart-card">
+            <h3 class="card-title">Spending by Category</h3>
+            <div class="chart-container" id="category-chart">
+              <p class="empty-msg">No data yet</p>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <h3 class="card-title">Mood vs Spending</h3>
+            <div class="chart-container" id="mood-chart">
+              <p class="empty-msg">No data yet</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Expenses -->
+        <div class="card">
+          <h3 class="card-title">Recent Expenses</h3>
+          <div id="recent-expenses"><p class="empty-msg">No expenses logged yet.</p></div>
+        </div>
+      </section>
+
+      <!-- ADD EXPENSE TAB -->
+      <section class="tab" id="tab-add">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Add Expense</h1>
+            <p class="page-sub">Log your spending + emotion</p>
+          </div>
+        </div>
+
+        <div class="form-container">
+          <div class="card form-card">
+            <div class="form-group">
+              <label class="form-label">Amount (₹)</label>
+              <input type="number" id="f-amount" class="form-input" placeholder="0.00" min="0" step="0.01" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <div class="category-grid" id="category-picker">
+                <button class="cat-btn" data-val="Food" onclick="selectCategory(this)">🍜 Food</button>
+                <button class="cat-btn" data-val="Shopping" onclick="selectCategory(this)">🛍️ Shopping</button>
+                <button class="cat-btn" data-val="Transport" onclick="selectCategory(this)">🚌 Transport</button>
+                <button class="cat-btn" data-val="Entertainment" onclick="selectCategory(this)">🎮 Entertainment</button>
+                <button class="cat-btn" data-val="Health" onclick="selectCategory(this)">💊 Health</button>
+                <button class="cat-btn" data-val="Education" onclick="selectCategory(this)">📚 Education</button>
+                <button class="cat-btn" data-val="Bills" onclick="selectCategory(this)">🧾 Bills</button>
+                <button class="cat-btn" data-val="Other" onclick="selectCategory(this)">📦 Other</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">How are you feeling?</label>
+              <div class="mood-grid" id="mood-picker">
+                <button class="mood-btn" data-val="happy" onclick="selectMood(this)">😊 Happy</button>
+                <button class="mood-btn" data-val="neutral" onclick="selectMood(this)">😐 Neutral</button>
+                <button class="mood-btn" data-val="bored" onclick="selectMood(this)">😑 Bored</button>
+                <button class="mood-btn" data-val="stressed" onclick="selectMood(this)">😤 Stressed</button>
+                <button class="mood-btn" data-val="sad" onclick="selectMood(this)">😢 Sad</button>
+                <button class="mood-btn" data-val="anxious" onclick="selectMood(this)">😰 Anxious</button>
+                <button class="mood-btn" data-val="tired" onclick="selectMood(this)">😴 Tired</button>
+                <button class="mood-btn" data-val="excited" onclick="selectMood(this)">🤩 Excited</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Reason <span class="optional">(optional)</span></label>
+              <input type="text" id="f-reason" class="form-input" placeholder="Why are you spending this?" maxlength="120" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" id="f-date" class="form-input" />
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="submitExpense()">
+              <span id="submit-text">+ Log Expense</span>
+            </button>
+            <div id="form-msg" class="form-msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI INSIGHTS TAB -->
+      <section class="tab" id="tab-insights">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">AI Insights</h1>
+            <p class="page-sub">Powered by Claude + Pattern Analysis</p>
+          </div>
+        </div>
+
+        <!-- Personality Card -->
+        <div class="card personality-card" id="personality-card">
+          <div class="personality-loading">Loading personality...</div>
+        </div>
+
+        <!-- Pattern Insights -->
+        <div class="card">
+          <h3 class="card-title">Spending Patterns</h3>
+          <div id="pattern-insights"><p class="empty-msg">Loading insights...</p></div>
+        </div>
+
+        <!-- Claude AI Insight -->
+        <div class="card ai-card">
+          <h3 class="card-title">
+            <span class="ai-badge">◈ AI</span>
+            Deep Analysis
+          </h3>
+          <p class="card-sub">Ask Claude to analyze your spending behavior</p>
+          <div class="ai-input-row">
+            <input type="text" id="ai-question" class="form-input" placeholder="e.g. Why do I overspend on weekends?" />
+            <button class="btn btn-primary" onclick="askClaude()">Ask AI</button>
+          </div>
+          <div id="ai-response" class="ai-response-box"></div>
+        </div>
+      </section>
+
+      <!-- HISTORY TAB -->
+      <section class="tab" id="tab-history">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">History</h1>
+            <p class="page-sub">All logged expenses</p>
+          </div>
+          <div class="header-actions">
+            <input type="text" id="search-input" class="form-input search-input" placeholder="Search expenses..." oninput="filterHistory()" />
+          </div>
+        </div>
+        <div class="card">
+          <div id="history-list"><p class="empty-msg">No expenses found.</p></div>
+        </div>
+      </section>
+
+      <!-- PREDICT TAB -->
+      <section class="tab" id="tab-predict">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Predict</h1>
+            <p class="page-sub">ML-based overspending risk detector</p>
+          </div>
+        </div>
+
+        <div class="card predict-card">
+          <h3 class="card-title">Today's Spending Risk</h3>
+          <p class="card-sub">Select your current mood to get a prediction</p>
+
+          <div class="mood-grid" id="predict-mood-picker">
+            <button class="mood-btn" data-val="happy" onclick="selectPredictMood(this)">😊 Happy</button>
+            <button class="mood-btn" data-val="neutral" onclick="selectPredictMood(this)">😐 Neutral</button>
+            <button class="mood-btn" data-val="bored" onclick="selectPredictMood(this)">😑 Bored</button>
+            <button class="mood-btn" data-val="stressed" onclick="selectPredictMood(this)">😤 Stressed</button>
+            <button class="mood-btn" data-val="sad" onclick="selectPredictMood(this)">😢 Sad</button>
+            <button class="mood-btn" data-val="anxious" onclick="selectPredictMood(this)">😰 Anxious</button>
+            <button class="mood-btn" data-val="tired" onclick="selectPredictMood(this)">😴 Tired</button>
+            <button class="mood-btn" data-val="excited" onclick="selectPredictMood(this)">🤩 Excited</button>
+          </div>
+
+          <button class="btn btn-primary" onclick="runPrediction()" style="margin-top:1.5rem;">
+            Run Prediction
+          </button>
+
+          <div id="prediction-result" class="prediction-result"></div>
+        </div>
+
+        <!-- ML Model Info -->
+        <div class="card">
+          <h3 class="card-title">About the ML Models</h3>
+          <div class="model-info-grid">
+            <div class="model-info-item">
+              <div class="model-badge lr">LR</div>
+              <div>
+                <strong>Logistic Regression</strong>
+                <p>Classifies high vs low spend probability based on mood, time, and day type.</p>
+              </div>
+            </div>
+            <div class="model-info-item">
+              <div class="model-badge dt">DT</div>
+              <div>
+                <strong>Decision Tree</strong>
+                <p>Captures non-linear patterns in your spending behavior across different contexts.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

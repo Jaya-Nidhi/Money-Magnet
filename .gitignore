@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+env/
+.env
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Data (don't commit personal expenses)
+backend/data/expenses.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# ML Models (if saved)
+backend/models/*.pkl
+backend/models/*.joblib
