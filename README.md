@@ -1,200 +1,176 @@
-# 💰 Money Magnet AI
+Money Magnet AI
 
-> An AI-powered personal finance tracker that analyzes **spending behavior + emotions** to generate deep financial insights.
-
-Not just *"where money goes"* — but **"why you spend"**.
+An intelligent expense tracking and analysis system that combines **Machine Learning + AI insights** to help users understand and control their spending behavior.
 
 ---
 
-## 🚀 Features
+Features
 
-### ✅ V1 — Core (Built)
-| Feature | Description |
-|---|---|
-| **Expense Logging** | Amount, Category, Mood, Reason, Date |
-| **Dashboard** | Total spend, category breakdown, mood vs spending |
-| **Visual Charts** | Bar charts for categories + moods |
-| **AI Insights** | Pattern detection (stress-spend, weekend surge) |
-| **Money Personality** | Emotional / Impulsive / Controlled / Weekend Warrior |
-| **Local Fallback** | Works offline with localStorage |
+ Smart Expense Tracking
 
-### 🟡 V2 — ML Predictions (Built)
-| Feature | Description |
-|---|---|
-| **Overspending Predictor** | Logistic Regression + Decision Tree ensemble |
-| **Risk Score** | 0–100 score with confidence level |
-| **Mood-Day Analysis** | Weekday vs Weekend spending patterns |
-| **Smart Alerts** | "High risk to overspend today" |
+* Log expenses with **amount, category, mood, and reason**
+* Track emotional spending patterns
+* Real-time dashboard with key metrics
 
-### 🔴 V3 — Advanced AI (Partial)
-| Feature | Status |
-|---|---|
-| 💬 Ask Claude | ✅ Integrated via Anthropic API |
-| 🧬 Money Personality | ✅ 5 personality types |
-| 📊 Weekly Reports | 🚧 Coming |
-| 🔮 Lucky Spending Days | 🚧 Coming |
+ ML-Based Prediction
+
+* Uses **Logistic Regression + Decision Tree**
+* Predicts **overspending risk** based on:
+
+  * Mood
+  * Time of day
+  * Weekend behavior
+  * Historical spending
+
+AI Insights (Groq-powered)
+
+* Ask questions like:
+
+  * *“Why do I overspend on weekends?”*
+  * *“How can I control my spending?”*
+* Provides **personalized financial advice**
+
+ Personality Analysis
+
+* Detects spending personality:
+
+  * Emotional Spender
+  * Impulsive Buyer
+  * Controlled Spender
+  * Weekend Warrior
+* Gives actionable improvement tips
+
+ Interactive Dashboard
+
+* Category-wise spending breakdown
+* Mood vs spending analysis
+* Recent transactions view
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
-```
-Frontend:  HTML5 · CSS3 · Vanilla JS
-Backend:   Python · Flask · Flask-CORS
-ML:        scikit-learn (Logistic Regression + Decision Tree)
-AI:        Anthropic Claude API
-Storage:   JSON file (backend) / localStorage (offline)
-```
+| Layer            | Technology            |
+| ---------------- | --------------------- |
+| Backend          | Flask                 |
+| Frontend         | HTML, CSS, JavaScript |
+| Machine Learning | Scikit-learn          |
+| AI Integration   | Groq API              |
+| Data Storage     | JSON                  |
 
 ---
 
-## 📁 Project Structure
-
+ Project Structure
 ```
-money-magnet-ai/
-├── README.md
-├── .gitignore
+MoneyMag/
 │
-├── frontend/
-│   ├── index.html          # Main app UI
-│   ├── styles.css          # Full design system
-│   └── app.js              # App logic + API calls
-│
-└── backend/
-    ├── app.py              # Flask REST API
-    ├── requirements.txt    # Python dependencies
-    ├── data/
-    │   └── expenses.json   # Expense storage
-    └── models/
-        ├── __init__.py
-        └── predictor.py    # scikit-learn ML models
+├── app.py                # Flask backend
+├── models/
+│   └── predictor.py      # ML model
+├── ai/
+│   └── groq_client.py   # AI integration
+├── static/
+│   ├── app.js           # Frontend logic
+│   └── styles.css       # UI styling
+├── templates/
+│   └── index.html       # Main UI
+├── data/
+│   └── expenses.json    # Local storage
+├── .env                 # API keys (not pushed)
+└── requirements.txt
 ```
 
 ---
 
-## ⚡ Quick Start
+##  Setup Instructions
 
-### Option A — Frontend Only (No backend needed)
-Just open `frontend/index.html` in your browser. Data saves to `localStorage`. AI insights require Anthropic API key.
+### 1. Clone the repository
 
-### Option B — Full Stack
-
-#### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/money-magnet-ai.git
-cd money-magnet-ai
+git clone https://github.com/your-username/MoneyMag.git
+cd MoneyMag
 ```
 
-#### 2. Set up backend
+### 2. Create virtual environment
+
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate   # (Linux/Mac)
+.venv\Scripts\activate      # (Windows)
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-#### 3. Add your Anthropic API key (for AI Chat)
-```bash
-# Create .env in backend/
-echo "ANTHROPIC_API_KEY=your_key_here" > .env
+### 4. Add environment variables
+
+Create a `.env` file:
+
+```env
+GROQ_API_KEY=your_api_key_here
 ```
 
-#### 4. Run the backend
+---
+
+### 5. Run the app
+
 ```bash
 python app.py
-# Server starts on http://localhost:5000
 ```
 
-#### 5. Open the frontend
-Open `frontend/index.html` in your browser (or use Live Server in VS Code).
+Open in browser:
 
----
-
-## 🤖 ML Models
-
-### Logistic Regression
-- **Task**: Binary classification — high vs low spending probability
-- **Features**: Mood (encoded), is_weekend, hour_of_day, amount
-- **Output**: Probability score 0–1
-
-### Decision Tree (max_depth=4)
-- **Task**: Captures non-linear patterns (e.g., "stressed + weekend = danger")
-- **Ensemble**: Average of LR + DT scores for final prediction
-- **Retrains**: Automatically after each new expense
-
-### Money Personality Detection
-- **Method**: Rule-based heuristics on spending variance, mood correlation, category concentration, weekend patterns
-- **Types**: Emotional Spender · Impulsive Buyer · Controlled · Weekend Warrior · Category Addict
-
----
-
-## 🎨 Design System
-
-| Token | Value | Usage |
-|---|---|---|
-| Primary Green | `#16A34A` | CTA, active states, money indicators |
-| Dark Background | `#0F172A` | Main app background |
-| Card Background | `#1E293B` | Panels, cards |
-| Accent Gold | `#FACC15` | Mood badges, highlights |
-| Light Text | `#E2E8F0` | Primary text |
-| Muted Text | `#94A3B8` | Labels, metadata |
-
----
-
-## 📡 API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/expenses` | Get all expenses |
-| POST | `/api/expenses` | Add new expense |
-| DELETE | `/api/expenses/:id` | Delete expense |
-| GET | `/api/stats` | Aggregated statistics |
-| POST | `/api/predict` | Run ML prediction |
-| GET | `/api/personality` | Get money personality |
-| GET | `/api/insights` | Pattern-based insights |
-| GET | `/api/health` | Health check |
-
-### POST `/api/expenses` body
-```json
-{
-  "amount": 450.00,
-  "category": "Food",
-  "mood": "stressed",
-  "reason": "Ordered food because too tired to cook",
-  "date": "2025-04-10"
-}
 ```
-
-### POST `/api/predict` body
-```json
-{ "mood": "stressed" }
+http://127.0.0.1:5000/
 ```
 
 ---
 
-oadmap
+##  How It Works
 
-- [ ] Weekly PDF reports
-- [ ] Monthly budget goals + alerts
-- [ ] WhatsApp/Telegram bot integration
-- [ ] Mobile app (React Native)
-- [ ] Multi-user with auth
-- [ ] Bank statement import (CSV/PDF)
-- [ ] Lucky spending day predictor
-- [ ] Savings rate tracker
+### ML Model
 
----
+* Trains on user expense data
+* Learns spending patterns
+* Predicts **risk of overspending**
 
-## 🤝 Contributing
+### AI System
 
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit: `git commit -m "Add my feature"`
-4. Push: `git push origin feature/my-feature`
-5. Open a Pull Request
+* Uses Groq LLM
+* Takes:
 
----
+  * User question
+  * Spending summary
+* Returns:
 
+  * Personalized advice
+  * Behavioral insights
 
 ---
 
+##  Security Note
+
+* API keys are stored in `.env`
+* `.env` is excluded via `.gitignore`
+* Never commit sensitive credentials
+
+---
+
+## 🎯 Future Improvements
+
+* Database integration (PostgreSQL / MongoDB)
+* User authentication system
+* Advanced visualizations (charts, graphs)
+* Mobile responsive UI
+* Deployment (Render / AWS / Vercel)
+
+---
+
+ Inspiration
+
+This project was built to explore how **AI + behavioral finance** can help people make smarter financial decisions.
+
+-
