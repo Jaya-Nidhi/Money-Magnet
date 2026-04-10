@@ -172,7 +172,7 @@ Open `frontend/index.html` in your browser (or use Live Server in VS Code).
 
 ---
 
-## 🗺️ Roadmap
+oadmap
 
 - [ ] Weekly PDF reports
 - [ ] Monthly budget goals + alerts
@@ -195,10 +195,6 @@ Open `frontend/index.html` in your browser (or use Live Server in VS Code).
 
 ---
 
-## 📄 License
-
-MIT License — feel free to use, modify, and distribute.
 
 ---
 
-<p align="center">Built with 💚 + AI · Track smart, spend smarter</p>
